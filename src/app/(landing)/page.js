@@ -1,24 +1,20 @@
-
-import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>메모리 카드 게임</h1>
-        <p className={styles.description}>
-          두뇌를 위한 궁극의 매칭 게임!
-        </p>
-        <nav className={styles.nav}>
-          <Link href="/play" className={styles.navLink}>
-            게임 시작
-          </Link>
-          <Link href="/rank" className={styles.navLink}>
-            랭킹 보기
-          </Link>
-        </nav>
-      </header>
+      <section>
+        <h2>게임방법</h2>
+        <ul>
+          <li>짝이 맞는 카드를 찾으세요</li>
+          <li>제한시간안에 모든 카드를 찾으세요</li>
+          <li>카드를 찾을수록 레벨이 올라가요</li>
+        </ul>
+      </section>
+      <section>
+        <h2>데모 리플레이</h2>
+        <h3>플레이 영상</h3>
+      </section>
     </div>
   );
 }
