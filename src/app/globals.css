@@ -26,8 +26,9 @@
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  min-height: 100dvh;
   gap: 8px;
   background-color: var(--color-bg);
 
