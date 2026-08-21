@@ -1,3 +1,8 @@
+/**
+ * 카드 덱 생성
+ * @param {*} count 
+ * @returns 
+ */
 export function generatePairedValues(count) {
     const values = Array.from({ length: count }, (_, i) => i + 1);
     const deck = [...values, ...values];
