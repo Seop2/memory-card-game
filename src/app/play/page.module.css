@@ -1,6 +1,5 @@
 .page {
     width: 100%;
-    background-color: cadetblue;
     padding: 30px var(--side-padding);
     display: flex;
     flex-direction: column;

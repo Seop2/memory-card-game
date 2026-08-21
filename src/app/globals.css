@@ -10,6 +10,7 @@
   --clr-black-500: #000000;
 
   --color-bg: var(--clr-neutral-50);
+  --color-text: var(--clr-neutral-900);
 
   --content-max-width: 900px;
   --side-padding: calc(max(15px, (100% - var(--content-max-width))/2));
@@ -21,14 +22,13 @@
   box-sizing: border-box;
   font-family: var(--font-google);
   font-weight: 400;
+  color: var(--color-text);
 }
 
 body {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  min-height: 100dvh;
   gap: 8px;
   background-color: var(--color-bg);
 
