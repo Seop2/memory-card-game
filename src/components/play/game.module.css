@@ -1,6 +1,15 @@
 .container {
     width: 100%;
 
+    .gameHeader {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        font-size: 20px;
+        padding: 15px;
+        border-bottom: 1px solid #80808090;
+    }
+
     .cards {
         width: 100%;
         display: grid;
