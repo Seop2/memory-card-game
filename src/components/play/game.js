@@ -12,7 +12,8 @@ import { useEffect, useState } from "react"
  *  5. 시간 제한
  * @returns 
  */
-export default function Game() {
+
+export default function Game({ isStarted, onGameEnd }) {
     const [cards, setCards] = useState([])
     const [flippedCardIdx, setFlippedCardIdx] = useState([])
     const [matchedIdx, setMatchedIdx] = useState([])
@@ -31,7 +32,7 @@ export default function Game() {
 
     //카드 뒤집기 이벤트
     const handleCardClick = (index) => {
-        if (!clickable || isFlipped(index) || matchedIdx.includes(index)) return;
+        if (!isStarted || !clickable || isFlipped(index) || matchedIdx.includes(index)) return;
         const newFlipped = [...flippedCardIdx, index];
         setFlippedCardIdx(newFlipped);
 
@@ -58,13 +59,31 @@ export default function Game() {
 
     //타이머 로직
     useEffect(() => {
-        if (time <= 0) return;
+        if (time <= 0 || !isStarted) return;
+
         const timer = setInterval(() => {
             setTime((prev) => prev - 1)
         }, 1000);
         return () => clearInterval(timer);
-    }, [time])
+    }, [time, isStarted])
 
+
+    useEffect(() => {
+        if (isStarted) {
+            setTime(60);
+            setScore(0);
+            setCards(generatePairedValues(10));
+            setMatchedIdx([]);
+            setFlippedCardIdx([]);
+            setClickable(true);
+        }
+    }, [isStarted])
+
+    useEffect(() => {
+        if (isStarted && time <= 0) {
+            onGameEnd?.();
+        }
+    }, [time, isStarted, onGameEnd])
 
     const isFlipped = (index) => flippedCardIdx.includes(index) || matchedIdx.includes(index);
 
