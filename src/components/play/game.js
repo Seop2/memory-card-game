@@ -3,6 +3,7 @@ import styles from "./game.module.css"
 import Card from "./card"
 import { generatePairedValues } from "@/lib/generatePariedValues"
 import { useEffect, useState } from "react"
+import GameOverModal from "./game-over-modal"
 /**
  * 게임 핵심 규칙
  *  1. 두 장만 뒤집기 가능
@@ -23,6 +24,8 @@ export default function Game({ isStarted, onGameEnd }) {
     const [clickable, setClickable] = useState(true)
 
 
+    const [isGameOver, setGameOver] = useState(false);
+
     //마운트시 랜덤 카드 데이터 생성
     useEffect(() => {
         setCards(generatePairedValues(10))
@@ -32,7 +35,7 @@ export default function Game({ isStarted, onGameEnd }) {
 
     //카드 뒤집기 이벤트
     const handleCardClick = (index) => {
-        if (!isStarted || !clickable || isFlipped(index) || matchedIdx.includes(index)) return;
+        if (!isStarted || !clickable || isFlipped(index) || matchedIdx.includes(index) || isGameOver) return;
         const newFlipped = [...flippedCardIdx, index];
         setFlippedCardIdx(newFlipped);
 
@@ -81,11 +84,15 @@ export default function Game({ isStarted, onGameEnd }) {
 
     useEffect(() => {
         if (isStarted && time <= 0) {
+            setGameOver(true);
             onGameEnd?.();
         }
     }, [time, isStarted, onGameEnd])
 
     const isFlipped = (index) => flippedCardIdx.includes(index) || matchedIdx.includes(index);
+
+    const handleRestart = () => { resetGame(); setGameOver(false) }
+    const handleCloseModal = () => { setGameOver(false) }
 
     return (
         <div className={styles.container}>
@@ -98,6 +105,7 @@ export default function Game({ isStarted, onGameEnd }) {
                     <Card key={index} value={value} onClick={() => handleCardClick(index)} isFlipped={isFlipped(index)} />
                 ))}
             </div>
+            {isGameOver && (<GameOverModal score={score} onRestart={handleRestart} onClose={handleCloseModal} />)}
         </div>
     )
 }
