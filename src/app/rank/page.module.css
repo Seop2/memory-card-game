@@ -1,11 +1,11 @@
 .page {
     width: 100%;
     max-width: 600px;
-    padding: 30px var(--side-padding);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
+    gap: 32px;
+    padding: 24px 0 40px;
 
     .title {
         text-align: center;
@@ -19,6 +19,7 @@
         h2 {
             font-size: 20px;
             font-weight: 400;
+            color: var(--color-text-muted);
         }
     }
 
@@ -27,8 +28,7 @@
         width: 100%;
         justify-content: center;
         align-items: flex-end;
-        gap: 15px;
-
+        gap: 12px;
 
         div {
             flex: 1;
@@ -36,9 +36,11 @@
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            border-radius: 12px;
-            background-color: #f8f9fa;
+            background-color: var(--color-surface);
+
             font-size: 15px;
+            padding: 5px;
+            border-radius: 10px;
 
             &:first-child {
                 font-weight: 800;
@@ -52,32 +54,34 @@
 
             &:last-child {
                 font-weight: 700;
-                color: #2563eb;
+                color: var(--color-rank-data);
             }
         }
 
         .first {
-            border: 2px solid #ffd700;
-            background-color: #fffdf0;
+            border: 2px solid var(--color-border-rank-first);
+            box-shadow: var(--shadow-card);
 
             div:first-child {
-                color: #d97706;
+                color: var(--color-rank-data);
             }
         }
 
         .second {
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--color-border-rank);
+            box-shadow: var(--shadow-card);
 
             div:first-child {
-                color: #6b7280;
+                color: var(--color-rank-text);
             }
         }
 
         .third {
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--color-border-rank);
+            box-shadow: var(--shadow-card);
 
             div:first-child {
-                color: #b45309;
+                color: var(--color-rank-text);
             }
         }
     }
@@ -101,7 +105,7 @@
             grid-template-columns: 40px 1fr max-content;
             align-items: center;
             padding: 13px 0;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--color-border-bottom);
             font-size: 14px;
         }
 

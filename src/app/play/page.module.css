@@ -9,9 +9,11 @@
     .button {
         border: none;
         padding: 5px 10px;
-        background-color: #80808045;
+        background-color: var(--color-button-bg);
+        color: var(--color-button-text);
         border-radius: 5px;
         font-size: 25px;
         font-weight: bold;
+        cursor: pointer;
     }
 }

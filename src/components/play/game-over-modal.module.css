@@ -32,6 +32,12 @@
     .score {
         font-size: 20px;
         margin-bottom: 20px;
+
+        span {
+            color: var(--color-accent-a);
+            font-size: 22px;
+            font-weight: bold;
+        }
     }
 
     .actions {
@@ -45,6 +51,8 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            background-color: var(--color-button-bg);
+            color: var(--color-button-text);
         }
     }
 }

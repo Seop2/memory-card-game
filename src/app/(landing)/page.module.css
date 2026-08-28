@@ -25,4 +25,10 @@
 
         gap: 20px;
     }
+
+    .rules {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
 }

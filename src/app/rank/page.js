@@ -11,21 +11,21 @@ export default function RankPage() {
                 <div>진섭</div>
                 <div>00:33</div>
                 <div>80</div>
-                <div>9moves</div>
+                <div>9 moves</div>
             </div>
             <div className={styles.second}>
                 <div>2ND</div>
                 <div>석호</div>
                 <div>00:45</div>
                 <div>80</div>
-                <div>13moves</div>
+                <div>13 moves</div>
             </div>
             <div className={styles.third}>
                 <div>3RD</div>
                 <div>상현</div>
                 <div>00:58</div>
                 <div>80</div>
-                <div>15moves</div>
+                <div>15 moves</div>
             </div>
         </section>
         <section className={styles.record}>

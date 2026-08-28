@@ -1,40 +1,56 @@
 :root {
   /* ===== base palette ===== */
-  --clr-navy-900: #14171F;
+  --clr-cream-100: #FFF7EC;
   /* 배경 */
-  --clr-navy-800: #232838;
+  --clr-cream-50: #FFFFFF;
   /* 카드/서페이스 */
-  --clr-navy-700: #2E3448;
+  --clr-sand-200: #FFE3C9;
   /* 보더 */
-  --clr-navy-600: #4A4F63;
+  --clr-tan-300: #E8C9A8;
   /* 점선 커넥터 */
 
-  --clr-coral-500: #FF6B4A;
+  --clr-coral-400: #FF8B6B;
   /* 페어 A */
-  --clr-mint-500: #4AE8D0;
+  --clr-mint-400: #4FD8B8;
   /* 페어 B */
 
-  --clr-text-100: #F2F0EB;
-  /* 주요 텍스트 */
-  --clr-text-400: #8A8FA3;
+  --clr-ink-800: #3A2A1E;
+  /* 주요 텍스트 (동물 SVG 라인아트와 동일 컬러) */
+  --clr-ink-400: #A08B7A;
   /* 보조 텍스트 */
 
+  --clr-underline: #e5e7eb;
+
   /* ===== semantic ===== */
-  --color-bg: var(--clr-navy-900);
-  --color-surface: var(--clr-navy-800);
-  --color-border: var(--clr-navy-700);
-  --color-connector: var(--clr-navy-600);
+  --color-bg: var(--clr-cream-100);
+  --color-surface: var(--clr-cream-50);
+  --color-border: var(--clr-sand-200);
+  --color-border-rank: var(--clr-tan-300);
+  --color-border-rank-first: var(--clr-mint-400);
+  --color-rank-text: var(--clr-ink-400);
+  --color-rank-data: var(--clr-coral-400);
+  --color-text: var(--clr-ink-800);
+  --color-text-muted: var(--clr-ink-400);
 
-  --color-text: var(--clr-text-100);
-  --color-text-muted: var(--clr-text-400);
 
-  --color-accent-a: var(--clr-coral-500);
-  --color-accent-b: var(--clr-mint-500);
+  --color-border-bottom: var(--clr-underline);
+  --color-button-bg: var(--clr-coral-400);
+  --color-button-text: var(--clr-cream-50);
+
+  --color-accent-a: var(--clr-coral-400);
+  --color-accent-b: var(--clr-mint-400);
+
+  --color-card-back: var(--clr-sand-200);
 
   /* ===== typography ===== */
-  --font-display: 'Fraunces', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-display: 'Fredoka', sans-serif;
+  --font-body: 'Nunito', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* ===== shape & elevation (카드 게임용) ===== */
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --shadow-card: 0 4px 0 rgba(58, 42, 30, 0.15);
 
   --content-max-width: 900px;
   --side-padding: calc(max(15px, (100% - var(--content-max-width)) / 2));
@@ -47,6 +63,7 @@
   font-family: var(--font-body);
   font-weight: 400;
   color: var(--color-text);
+  list-style: none;
 }
 
 body {
@@ -67,12 +84,12 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 em,
 .em {
-  font-style: italic;
+  font-style: normal;
   color: var(--color-accent-b);
 }
 
