@@ -39,8 +39,9 @@
         }
 
         .card_back {
-            background-color: royalblue;
-            color: white;
+            background-color: var(--color-surface);
+            color: var(--color-text);
+            border: 3px solid var(--color-border);
         }
     }
 

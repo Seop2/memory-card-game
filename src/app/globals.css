@@ -1,26 +1,50 @@
 :root {
-  --clr-neutral-900: #533;
-  --clr-neutral-50: #f4f1ed;
+  /* ===== base palette ===== */
+  --clr-navy-900: #14171F;
+  /* 배경 */
+  --clr-navy-800: #232838;
+  /* 카드/서페이스 */
+  --clr-navy-700: #2E3448;
+  /* 보더 */
+  --clr-navy-600: #4A4F63;
+  /* 점선 커넥터 */
 
-  --clr-blue-500: #057beb;
-  --clr-red-600: #e21b1b;
-  --clr-yellow-400: #f3e047;
-  --clr-amber-500: #d49c42;
-  --clr-gray-500: #928c8c;
-  --clr-black-500: #000000;
+  --clr-coral-500: #FF6B4A;
+  /* 페어 A */
+  --clr-mint-500: #4AE8D0;
+  /* 페어 B */
 
-  --color-bg: var(--clr-neutral-50);
-  --color-text: var(--clr-neutral-900);
+  --clr-text-100: #F2F0EB;
+  /* 주요 텍스트 */
+  --clr-text-400: #8A8FA3;
+  /* 보조 텍스트 */
+
+  /* ===== semantic ===== */
+  --color-bg: var(--clr-navy-900);
+  --color-surface: var(--clr-navy-800);
+  --color-border: var(--clr-navy-700);
+  --color-connector: var(--clr-navy-600);
+
+  --color-text: var(--clr-text-100);
+  --color-text-muted: var(--clr-text-400);
+
+  --color-accent-a: var(--clr-coral-500);
+  --color-accent-b: var(--clr-mint-500);
+
+  /* ===== typography ===== */
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
   --content-max-width: 900px;
-  --side-padding: calc(max(15px, (100% - var(--content-max-width))/2));
+  --side-padding: calc(max(15px, (100% - var(--content-max-width)) / 2));
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--font-google);
+  font-family: var(--font-body);
   font-weight: 400;
   color: var(--color-text);
 }
@@ -32,8 +56,26 @@ body {
   gap: 8px;
   background-color: var(--color-bg);
 
-
   a {
     text-decoration: none;
+    color: inherit;
   }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+em,
+.em {
+  font-style: italic;
+  color: var(--color-accent-b);
+}
+
+.mono {
+  font-family: var(--font-mono);
 }
