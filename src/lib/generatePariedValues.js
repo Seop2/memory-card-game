@@ -3,7 +3,7 @@
  * @param {*} item
  * @returns 
  */
-export function generatePairedValues(items) {
+export function generatePairedAnimalDeck(items) {
 
     const deck = [...items, ...items].map((item, index) => ({
         ...item, cardId: `${item.id}- ${index}`

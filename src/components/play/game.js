@@ -1,10 +1,9 @@
 "use client"
 import styles from "./game.module.css"
 import Card from "./card"
-import { generatePairedValues } from "@/lib/generatePariedValues"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import GameOverModal from "./game-over-modal"
-import { ANIMALS } from "@/data/animal"
+import { useGameStore } from "@/store/gameStore"
 /**
  * 게임 핵심 규칙
  *  1. 두 장만 뒤집기 가능
@@ -16,84 +15,38 @@ import { ANIMALS } from "@/data/animal"
  */
 
 export default function Game({ isStarted, onGameEnd }) {
-    const [cards, setCards] = useState([])
-    const [flippedCardIdx, setFlippedCardIdx] = useState([])
-    const [matchedIdx, setMatchedIdx] = useState([])
+    const { cards, score, time, isGameOver, startGame, flipCard, tick, flippedCardIdx, matchedIdx, restartGame } = useGameStore()
 
-    const [score, setScore] = useState(0);
-    const [time, setTime] = useState(60);
-    const [clickable, setClickable] = useState(true)
-
-
-    const [isGameOver, setGameOver] = useState(false);
-
-    //마운트시 랜덤 카드 데이터 생성
+    //최초 로딩시 카드 미리 보여주기
     useEffect(() => {
-        setCards(generatePairedValues(ANIMALS))
+        startGame();
     }, [])
 
-
-
-    //카드 뒤집기 이벤트
-    const handleCardClick = (index) => {
-        if (!isStarted || !clickable || isFlipped(index) || matchedIdx.includes(index) || isGameOver) return;
-        const newFlipped = [...flippedCardIdx, index];
-        setFlippedCardIdx(newFlipped);
-
-        //두번째 카드까지 뒤집었을 때 값 비교 및 로직 처리
-        if (newFlipped.length === 2) {
-            setClickable(false);
-            const [firstIdx, secondIdx] = newFlipped;
-            const isMatch = cards[firstIdx].id === cards[secondIdx].id;
-
-            if (isMatch) {
-                setMatchedIdx((prev) => [...prev, firstIdx, secondIdx]);
-                setScore((prev) => prev + 10);
-                setFlippedCardIdx([]);
-                setClickable(true);
-            } else {
-                setTimeout(() => {
-                    setFlippedCardIdx([]);
-                    setClickable(true);
-                }, 1000)
-            }
-        }
-    }
-
+    //게임 시작시 스토어 초기화
+    useEffect(() => {
+        if (isStarted) startGame();
+    }, [isStarted, startGame])
 
     //타이머 로직
     useEffect(() => {
-        if (time <= 0 || !isStarted) return;
+        if (isGameOver || !isStarted) return;
 
-        const timer = setInterval(() => {
-            setTime((prev) => prev - 1)
-        }, 1000);
+        const timer = setInterval(() => tick(), 1000);
+
         return () => clearInterval(timer);
-    }, [time, isStarted])
+
+    }, [isGameOver, isStarted, tick])
 
 
-    useEffect(() => {
-        if (isStarted) {
-            setTime(60);
-            setScore(0);
-            setCards(generatePairedValues(ANIMALS));
-            setMatchedIdx([]);
-            setFlippedCardIdx([]);
-            setClickable(true);
-        }
-    }, [isStarted])
 
     useEffect(() => {
-        if (isStarted && time <= 0) {
-            setGameOver(true);
-            onGameEnd?.();
-        }
-    }, [time, isStarted, onGameEnd])
+        if (isGameOver) onGameEnd?.()
+    }, [isGameOver, onGameEnd])
 
-    const isFlipped = (index) => flippedCardIdx.includes(index) || matchedIdx.includes(index);
 
-    const handleRestart = () => { resetGame(); setGameOver(false) }
-    const handleCloseModal = () => { setGameOver(false) }
+    const handleCloseModal = () => {
+        useGameStore.setState({ isGameOver: false });
+    }
 
     return (
         <div className={styles.container}>
@@ -103,10 +56,10 @@ export default function Game({ isStarted, onGameEnd }) {
             </div>
             <div className={styles.cards}>
                 {cards.map((item, index) => (
-                    <Card key={index} item={item} onClick={() => handleCardClick(index)} isFlipped={isFlipped(index)} />
+                    <Card key={index} item={item} onClick={() => flipCard(index)} isFlipped={flippedCardIdx.includes(index) || matchedIdx.includes(index)} />
                 ))}
             </div>
-            {isGameOver && (<GameOverModal score={score} onRestart={handleRestart} onClose={handleCloseModal} />)}
+            {isGameOver && (<GameOverModal score={score} onRestart={restartGame} onClose={handleCloseModal} />)}
         </div>
     )
 }
