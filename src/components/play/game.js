@@ -4,6 +4,7 @@ import Card from "./card"
 import { generatePairedValues } from "@/lib/generatePariedValues"
 import { useEffect, useState } from "react"
 import GameOverModal from "./game-over-modal"
+import { ANIMALS } from "@/data/animal"
 /**
  * 게임 핵심 규칙
  *  1. 두 장만 뒤집기 가능
@@ -28,7 +29,7 @@ export default function Game({ isStarted, onGameEnd }) {
 
     //마운트시 랜덤 카드 데이터 생성
     useEffect(() => {
-        setCards(generatePairedValues(10))
+        setCards(generatePairedValues(ANIMALS))
     }, [])
 
 
@@ -43,7 +44,7 @@ export default function Game({ isStarted, onGameEnd }) {
         if (newFlipped.length === 2) {
             setClickable(false);
             const [firstIdx, secondIdx] = newFlipped;
-            const isMatch = cards[firstIdx] === cards[secondIdx];
+            const isMatch = cards[firstIdx].id === cards[secondIdx].id;
 
             if (isMatch) {
                 setMatchedIdx((prev) => [...prev, firstIdx, secondIdx]);
@@ -75,7 +76,7 @@ export default function Game({ isStarted, onGameEnd }) {
         if (isStarted) {
             setTime(60);
             setScore(0);
-            setCards(generatePairedValues(10));
+            setCards(generatePairedValues(ANIMALS));
             setMatchedIdx([]);
             setFlippedCardIdx([]);
             setClickable(true);
@@ -101,8 +102,8 @@ export default function Game({ isStarted, onGameEnd }) {
                 <div>점수 : {score} 점</div>
             </div>
             <div className={styles.cards}>
-                {cards.map((value, index) => (
-                    <Card key={index} value={value} onClick={() => handleCardClick(index)} isFlipped={isFlipped(index)} />
+                {cards.map((item, index) => (
+                    <Card key={index} item={item} onClick={() => handleCardClick(index)} isFlipped={isFlipped(index)} />
                 ))}
             </div>
             {isGameOver && (<GameOverModal score={score} onRestart={handleRestart} onClose={handleCloseModal} />)}
