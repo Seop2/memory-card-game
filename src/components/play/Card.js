@@ -1,5 +1,5 @@
 import Image from "next/image"
-import style from "./card.module.css"
+import style from "./Card.module.css"
 import { useGameStore } from "@/store/gameStore"
 import { memo } from "react";
 function Card({ item, isFlipped, isMatched, index }) {

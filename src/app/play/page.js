@@ -1,7 +1,7 @@
 "use client"
 import { Suspense, useState } from "react"
 import styles from "./page.module.css"
-import Game from "@/components/play/game"
+import Game from "@/components/play/Game"
 
 export default function PlayPage() {
     const [playing, setPlaying] = useState(false);

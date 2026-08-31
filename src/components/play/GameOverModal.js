@@ -1,4 +1,4 @@
-import styles from "./game-over-modal.module.css"
+import styles from "./GameOverModal.module.css"
 export default function GameOverModal({ score, onRestart, onClose }) {
     return (
         <div className={styles.overlay}>
