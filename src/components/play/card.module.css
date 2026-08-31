@@ -34,6 +34,7 @@
             -webkit-backface-visibility: hidden;
             padding: 5px 15px;
             border-radius: 5%;
+            box-shadow: var(--shadow-card);
         }
 
         .card_front {
