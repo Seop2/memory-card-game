@@ -32,9 +32,13 @@ export default function Game({ isStarted, onGameEnd }) {
         useGameStore.setState({ clickable: false })
     }, [])
 
-    //Reset store when the game starts
+    //Reset store when the game starts, lock cards when stopped
     useEffect(() => {
-        if (isStarted) startGame();
+        if (isStarted) {
+            startGame();
+        } else {
+            useGameStore.setState({ clickable: false });
+        }
     }, [isStarted, startGame])
 
     //Timer logic
