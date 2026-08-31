@@ -10,8 +10,8 @@ const font = Plus_Jakarta_Sans({
 })
 
 export const metadata = {
-  title: "메모리 카드 게임",
-  description: "두뇌를 위한 궁극의 매칭 게임!",
+  title: "Memory Card Game",
+  description: "The ultimate matching game for your brain!",
 };
 
 export default function RootLayout({ children }) {

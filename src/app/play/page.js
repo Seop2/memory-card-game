@@ -12,7 +12,7 @@ export default function PlayPage() {
 
     return <div className={styles.page}>
         <button className={styles.button} onClick={gameStart}>{playing ? "STOP" : "START"}</button>
-        <Suspense fallback={<div>로딩중.....</div>}>
+        <Suspense fallback={<div>Loading.....</div>}>
             <Game isStarted={playing} onGameEnd={() => setPlaying(false)} />
         </Suspense>
     </div>

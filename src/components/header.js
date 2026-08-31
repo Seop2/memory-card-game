@@ -6,9 +6,9 @@ export default function Header() {
         <header className={styles.header}>
             <Link href="/" className={styles.title}><h1>MEMORY GAME</h1></Link>
             <nav className={styles.nav}>
-                <Link href="/">메인</Link>
-                <Link href="/play">게임시작</Link>
-                <Link href="/rank">랭킹보기</Link>
+                <Link href="/">Home</Link>
+                <Link href="/play">Play</Link>
+                <Link href="/rank">Ranking</Link>
             </nav>
         </header>
     )

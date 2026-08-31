@@ -1,7 +1,7 @@
 /**
- * 카드 덱 생성
+ * Generate the card deck
  * @param {*} item
- * @returns 
+ * @returns
  */
 export function generatePairedAnimalDeck(items) {
 

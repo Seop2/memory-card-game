@@ -4,16 +4,16 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <section className={styles.rule}>
-        <h2 className={styles.title}>게임방법</h2>
+        <h2 className={styles.title}>How to Play</h2>
         <ul className={styles.rules}>
-          <li>짝이 맞는 동물 카드를 찾으세요</li>
-          <li>제한시간안에 모든 카드를 찾으세요</li>
-          <li>카드를 찾을수록 점수가 올라가요</li>
+          <li>Find matching pairs of animal cards</li>
+          <li>Find all the cards before time runs out</li>
+          <li>Your score goes up as you find matches</li>
         </ul>
       </section>
       <section className={styles.demo}>
-        <h2>데모 리플레이</h2>
-        <h3>플레이 영상</h3>
+        <h2>Demo Replay</h2>
+        <h3>Gameplay Video</h3>
       </section>
     </div>
   );

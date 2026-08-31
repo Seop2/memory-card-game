@@ -1,23 +1,23 @@
 :root {
   /* ===== base palette ===== */
   --clr-cream-100: #FFF7EC;
-  /* 배경 */
+  /* background */
   --clr-cream-50: #FFFFFF;
-  /* 카드/서페이스 */
+  /* card/surface */
   --clr-sand-200: #FFE3C9;
-  /* 보더 */
+  /* border */
   --clr-tan-300: #E8C9A8;
-  /* 점선 커넥터 */
+  /* dashed connector */
 
   --clr-coral-400: #FF8B6B;
-  /* 페어 A */
+  /* pair A */
   --clr-mint-400: #4FD8B8;
-  /* 페어 B */
+  /* pair B */
 
   --clr-ink-800: #3A2A1E;
-  /* 주요 텍스트 (동물 SVG 라인아트와 동일 컬러) */
+  /* primary text (matches animal SVG line-art color) */
   --clr-ink-400: #A08B7A;
-  /* 보조 텍스트 */
+  /* secondary text */
 
   --clr-underline: #e5e7eb;
 
@@ -49,7 +49,7 @@
   --font-body: 'Nunito', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* ===== shape & elevation (카드 게임용) ===== */
+  /* ===== shape & elevation (for card game) ===== */
   --radius-lg: 20px;
   --radius-md: 12px;
   --shadow-card: 0 4px 0 rgba(58, 42, 30, 0.15);
