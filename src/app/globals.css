@@ -52,6 +52,7 @@
   /* ===== shape & elevation (for card game) ===== */
   --radius-lg: 20px;
   --radius-md: 12px;
+  --radius-sm: 5px;
   --shadow-card: 0 4px 0 rgba(58, 42, 30, 0.15);
 
   --content-max-width: 900px;
