@@ -49,6 +49,7 @@ export default function Game({ isStarted, onGameEnd }) {
         useGameStore.setState({ isGameOver: false });
     }
 
+    const isMatched = (index) => (matchedIdx.includes(index))
     return (
         <div className={styles.container}>
             <div className={styles.gameHeader}>
@@ -57,7 +58,7 @@ export default function Game({ isStarted, onGameEnd }) {
             </div>
             <div className={styles.cards}>
                 {cards.map((item, index) => (
-                    <Card key={index} item={item} onClick={() => flipCard(index)} isFlipped={flippedCardIdx.includes(index) || matchedIdx.includes(index)} />
+                    <Card key={index} item={item} onClick={() => flipCard(index)} isFlipped={flippedCardIdx.includes(index) || matchedIdx.includes(index)} isMatched={isMatched(index)} />
                 ))}
             </div>
             {isGameOver && (<GameOverModal score={score} onRestart={restartGame} onClose={handleCloseModal} />)}

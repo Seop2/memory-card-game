@@ -42,6 +42,8 @@
 
   --color-card-back: var(--clr-sand-200);
 
+  --color-matched-border: var(--clr-mint-400);
+
   /* ===== typography ===== */
   --font-display: 'Fredoka', sans-serif;
   --font-body: 'Nunito', sans-serif;

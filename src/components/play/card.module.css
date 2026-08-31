@@ -15,6 +15,11 @@
             transform: rotateY(180deg);
         }
 
+        &.matched {
+            border: 5px solid var(--color-matched-border);
+            border-radius: var(--radius-md);
+        }
+
         .card_front,
         .card_back {
             position: absolute;
