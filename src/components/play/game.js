@@ -59,6 +59,9 @@ export default function Game({ isStarted, onGameEnd }) {
     }
 
     const isMatched = (index) => (matchedIdx.includes(index))
+    const isFlipped = (index) => (flippedCardIdx.includes(index) || matchedIdx.includes(index));
+    const finalScore = useGameStore((state) => (state.score));
+
     return (
         <div className={styles.container}>
             <div className={styles.gameHeader}>
@@ -67,10 +70,10 @@ export default function Game({ isStarted, onGameEnd }) {
             </div>
             <div className={styles.cards}>
                 {cards.map((item, index) => (
-                    <Card key={index} item={item} index={index} isFlipped={flippedCardIdx.includes(index) || matchedIdx.includes(index)} isMatched={isMatched(index)} />
+                    <Card key={index} item={item} index={index} isFlipped={isFlipped(index)} isMatched={isMatched(index)} />
                 ))}
             </div>
-            {isGameOver && (<GameOverModal score={useGameStore.getState().score} onRestart={restartGame} onClose={handleCloseModal} />)}
+            {isGameOver && (<GameOverModal score={finalScore} onRestart={restartGame} onClose={handleCloseModal} />)}
         </div>
     )
 }
