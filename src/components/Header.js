@@ -1,5 +1,6 @@
 import styles from "./Header.module.css"
 import Link from "next/link";
+import MobileButton from "./button/MobileButton";
 
 export default function Header() {
     return (
@@ -10,6 +11,7 @@ export default function Header() {
                 <Link href="/play">Play</Link>
                 <Link href="/rank">Ranking</Link>
             </nav>
+            <MobileButton />
         </header>
     )
 }

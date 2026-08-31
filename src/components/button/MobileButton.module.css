@@ -1,0 +1,10 @@
+.btn {
+    display: none;
+    border: none;
+    background-color: var(--color-bg);
+    cursor: pointer;
+
+    @media (max-width: 640px) {
+        display: block;
+    }
+}
