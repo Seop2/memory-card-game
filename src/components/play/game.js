@@ -4,6 +4,8 @@ import Card from "./card"
 import { useEffect } from "react"
 import GameOverModal from "./game-over-modal"
 import { useGameStore } from "@/store/gameStore"
+import Timer from "./Timer"
+import Score from "./Score"
 /**
  * Core game rules
  *  1. Only two cards can be flipped at a time
@@ -15,7 +17,14 @@ import { useGameStore } from "@/store/gameStore"
  */
 
 export default function Game({ isStarted, onGameEnd }) {
-    const { cards, score, time, isGameOver, startGame, flipCard, tick, flippedCardIdx, matchedIdx, restartGame } = useGameStore()
+    const cards = useGameStore((state) => (state.cards))
+    const isGameOver = useGameStore((state) => (state.isGameOver))
+    const startGame = useGameStore((state) => (state.startGame))
+    const tick = useGameStore((state) => (state.tick))
+    const flippedCardIdx = useGameStore((state) => (state.flippedCardIdx))
+    const matchedIdx = useGameStore((state) => (state.matchedIdx))
+    const restartGame = useGameStore((state) => (state.restartGame))
+
 
     //Preview cards on initial load
     useEffect(() => {
@@ -53,15 +62,15 @@ export default function Game({ isStarted, onGameEnd }) {
     return (
         <div className={styles.container}>
             <div className={styles.gameHeader}>
-                <div>Time Left: {time}s</div>
-                <div>Score: {score}</div>
+                <Timer />
+                <Score />
             </div>
             <div className={styles.cards}>
                 {cards.map((item, index) => (
-                    <Card key={index} item={item} onClick={() => flipCard(index)} isFlipped={flippedCardIdx.includes(index) || matchedIdx.includes(index)} isMatched={isMatched(index)} />
+                    <Card key={index} item={item} index={index} isFlipped={flippedCardIdx.includes(index) || matchedIdx.includes(index)} isMatched={isMatched(index)} />
                 ))}
             </div>
-            {isGameOver && (<GameOverModal score={score} onRestart={restartGame} onClose={handleCloseModal} />)}
+            {isGameOver && (<GameOverModal score={useGameStore.getState().score} onRestart={restartGame} onClose={handleCloseModal} />)}
         </div>
     )
 }

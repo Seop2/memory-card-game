@@ -16,10 +16,12 @@ export const useGameStore = create((set, get) => ({
     time: INITIAL_TIME,
     clickable: false,
     isGameOver: false,
+    round: 0,
 
     // ── actions ──
     startGame: () => {
-        set({
+        set((state) => ({
+            round: state.round + 1,
             cards: generatePairedAnimalDeck(ANIMALS),
             flippedCardIdx: [],
             matchedIdx: [],
@@ -27,11 +29,11 @@ export const useGameStore = create((set, get) => ({
             time: INITIAL_TIME,
             clickable: true,
             isGameOver: false,
-        })
+        }))
     },
 
     flipCard: (index) => {
-        const { cards, flippedCardIdx, matchedIdx, clickable, isGameOver } = get();
+        const { cards, flippedCardIdx, matchedIdx, clickable, isGameOver, round } = get();
         const isAlreadyFlipped = flippedCardIdx.includes(index) || matchedIdx.includes(index);
 
         if (!clickable || isAlreadyFlipped || isGameOver) return;
@@ -51,7 +53,10 @@ export const useGameStore = create((set, get) => ({
                 clickable: true,
             }))
         } else {
+            const currentRound = round;
             setTimeout(() => {
+                const state = get();
+                if (state.round !== currentRound || state.isGameOver) return;
                 set({ flippedCardIdx: [], clickable: true })
             }, MISMATCH_DELAY);
         }
