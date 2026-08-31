@@ -14,7 +14,7 @@ export const useGameStore = create((set, get) => ({
     matchedIdx: [],
     score: 0,
     time: INITIAL_TIME,
-    clickable: true,
+    clickable: false,
     isGameOver: false,
 
     // ── actions ──

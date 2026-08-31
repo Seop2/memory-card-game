@@ -20,6 +20,7 @@ export default function Game({ isStarted, onGameEnd }) {
     //최초 로딩시 카드 미리 보여주기
     useEffect(() => {
         startGame();
+        useGameStore.setState({ clickable: false })
     }, [])
 
     //게임 시작시 스토어 초기화
