@@ -24,7 +24,7 @@ export default function Game({ isStarted, onGameEnd }) {
     const flippedCardIdx = useGameStore((state) => (state.flippedCardIdx))
     const matchedIdx = useGameStore((state) => (state.matchedIdx))
     const restartGame = useGameStore((state) => (state.restartGame))
-
+    const moves = useGameStore((state) => (state.moves));
 
     //Preview cards on initial load
     useEffect(() => {
@@ -54,7 +54,10 @@ export default function Game({ isStarted, onGameEnd }) {
 
 
     useEffect(() => {
-        if (isGameOver) onGameEnd?.()
+        if (isGameOver) {
+            console.log("game over : ", moves);
+            onGameEnd?.()
+        }
     }, [isGameOver, onGameEnd])
 
 
@@ -77,7 +80,7 @@ export default function Game({ isStarted, onGameEnd }) {
                     <Card key={index} item={item} index={index} isFlipped={isFlipped(index)} isMatched={isMatched(index)} />
                 ))}
             </div>
-            {isGameOver && (<GameOverModal score={finalScore} onRestart={restartGame} onClose={handleCloseModal} />)}
+            {isGameOver && (<GameOverModal score={finalScore} onRestart={restartGame} onClose={handleCloseModal} moves={moves} />)}
         </div>
     )
 }

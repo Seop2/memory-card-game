@@ -17,11 +17,13 @@ export const useGameStore = create((set, get) => ({
     clickable: false,
     isGameOver: false,
     round: 0,
+    moves: 0,
 
     // ── actions ──
     startGame: () => {
         set((state) => ({
             round: state.round + 1,
+            moves: 0,
             cards: generatePairedAnimalDeck(ANIMALS),
             flippedCardIdx: [],
             matchedIdx: [],
@@ -42,7 +44,7 @@ export const useGameStore = create((set, get) => ({
 
         set({ flippedCardIdx: newFlipped });
         if (newFlipped.length !== 2) return;
-        set({ clickable: false })
+        set({ clickable: false, moves: get().moves + 1 })
         const [firstIdx, secondIdx] = newFlipped;
         const isMatch = cards[firstIdx].id === cards[secondIdx].id;
         if (isMatch) {
