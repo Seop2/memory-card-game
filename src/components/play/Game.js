@@ -54,10 +54,7 @@ export default function Game({ isStarted, onGameEnd }) {
 
 
     useEffect(() => {
-        if (isGameOver) {
-            console.log("game over : ", moves);
-            onGameEnd?.()
-        }
+        if (isGameOver) onGameEnd?.()
     }, [isGameOver, onGameEnd])
 
 
