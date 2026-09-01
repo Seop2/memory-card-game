@@ -16,14 +16,13 @@ import Score from "./Score"
  * @returns
  */
 
-export default function Game({ isStarted, onGameEnd }) {
+export default function Game({ isStarted, onGameEnd, onRestart }) {
     const cards = useGameStore((state) => (state.cards))
     const isGameOver = useGameStore((state) => (state.isGameOver))
     const startGame = useGameStore((state) => (state.startGame))
     const tick = useGameStore((state) => (state.tick))
     const flippedCardIdx = useGameStore((state) => (state.flippedCardIdx))
     const matchedIdx = useGameStore((state) => (state.matchedIdx))
-    const restartGame = useGameStore((state) => (state.restartGame))
     const moves = useGameStore((state) => (state.moves));
 
     //Preview cards on initial load
@@ -66,6 +65,7 @@ export default function Game({ isStarted, onGameEnd }) {
     const isFlipped = (index) => (flippedCardIdx.includes(index) || matchedIdx.includes(index));
     const finalScore = useGameStore((state) => (state.score));
 
+
     return (
         <div className={styles.container}>
             <div className={styles.gameHeader}>
@@ -77,7 +77,7 @@ export default function Game({ isStarted, onGameEnd }) {
                     <Card key={index} item={item} index={index} isFlipped={isFlipped(index)} isMatched={isMatched(index)} />
                 ))}
             </div>
-            {isGameOver && (<GameOverModal score={finalScore} onRestart={restartGame} onClose={handleCloseModal} moves={moves} />)}
+            {isGameOver && (<GameOverModal score={finalScore} onRestart={onRestart} onClose={handleCloseModal} moves={moves} />)}
         </div>
     )
 }
