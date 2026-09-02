@@ -6,6 +6,7 @@ import GameOverModal from "./GameOverModal"
 import { useGameStore } from "@/store/gameStore"
 import Timer from "./Timer"
 import Score from "./Score"
+import { useRankStore } from "@/store/rankStore"
 /**
  * Core game rules
  *  1. Only two cards can be flipped at a time
@@ -24,6 +25,7 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
     const flippedCardIdx = useGameStore((state) => (state.flippedCardIdx))
     const matchedIdx = useGameStore((state) => (state.matchedIdx))
     const moves = useGameStore((state) => (state.moves));
+    const addRecord = useRankStore((state) => (state.addRecord));
 
     //Preview cards on initial load
     useEffect(() => {
@@ -65,6 +67,14 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
     const isFlipped = (index) => (flippedCardIdx.includes(index) || matchedIdx.includes(index));
     const finalScore = useGameStore((state) => (state.score));
 
+    const handleSave = (name) => {
+        addRecord({
+            name,
+            score: finalScore,
+            moves: moves,
+            date: new Date()
+        })
+    }
 
     return (
         <div className={styles.container}>
@@ -77,7 +87,7 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
                     <Card key={index} item={item} index={index} isFlipped={isFlipped(index)} isMatched={isMatched(index)} />
                 ))}
             </div>
-            {isGameOver && (<GameOverModal score={finalScore} onRestart={onRestart} onClose={handleCloseModal} moves={moves} />)}
+            {isGameOver && (<GameOverModal score={finalScore} onRestart={onRestart} onClose={handleCloseModal} moves={moves} onSave={handleSave} />)}
         </div>
     )
 }
