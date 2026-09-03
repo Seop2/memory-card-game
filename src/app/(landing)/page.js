@@ -20,7 +20,7 @@ export default function Home() {
           loop
           playsInline
           preload="metadata"
-        >  <source src="/video/play1.webm" type="video/webm" />
+        >  <source src="/video/play2.webm" type="video/webm" />
           <source src="/video/play1.mp4" type="video/mp4" />
         </video>
       </section>
