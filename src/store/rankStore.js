@@ -8,7 +8,7 @@ export const useRankStore = create(
         ranks: [],
         addRecord: (record) => {
             set((state) => ({
-                ranks: [record, ...state.ranks].sort((a, b) => b.score - a.score).slice(0, 10)
+                ranks: [record, ...state.ranks].sort((a, b) => b.score - a.score || a.moves - b.moves).slice(0, 10)
             }))
         }
     }), {
