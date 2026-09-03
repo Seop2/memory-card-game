@@ -12,8 +12,15 @@ export default function Home() {
         </ul>
       </section>
       <section className={styles.demo}>
-        <h2>Demo Replay</h2>
         <h3>Gameplay Video</h3>
+        <video
+          className={styles.demoVideo}
+          src="/video/play1.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
       </section>
     </div>
   );
