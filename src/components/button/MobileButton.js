@@ -21,9 +21,9 @@ export default function MobileButton() {
             }
             <div className={`${styles.overlay} ${isOpen ? styles.open : ""}`} onClick={() => setIsOpen(false)} />
             <nav className={`${styles.mobileMenu} ${isOpen ? styles.open : ""}`}>
-                <Link href="/">Home</Link>
-                <Link href="/play">Play</Link>
-                <Link href="/rank">Ranking</Link>
+                <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
+                <Link href="/play" onClick={() => setIsOpen(false)}>Play</Link>
+                <Link href="/rank" onClick={() => setIsOpen(false)}>Ranking</Link>
             </nav>
         </>
     )
