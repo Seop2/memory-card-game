@@ -18,9 +18,11 @@ export const useGameStore = create((set, get) => ({
     isGameOver: false,
     round: 0,
     moves: 0,
+    mismatchTimeoutId: null,
 
     // ── actions ──
     startGame: () => {
+        clearTimeout(get().mismatchTimeoutId);
         set((state) => ({
             round: state.round + 1,
             moves: 0,
@@ -31,11 +33,17 @@ export const useGameStore = create((set, get) => ({
             time: INITIAL_TIME,
             clickable: true,
             isGameOver: false,
+            mismatchTimeoutId: null,
         }))
     },
 
+    stopGame: () => {
+        clearTimeout(get().mismatchTimeoutId);
+        set({ clickable: false, mismatchTimeoutId: null });
+    },
+
     flipCard: (index) => {
-        const { cards, flippedCardIdx, matchedIdx, clickable, isGameOver, round } = get();
+        const { cards, flippedCardIdx, matchedIdx, clickable, isGameOver } = get();
         const isAlreadyFlipped = flippedCardIdx.includes(index) || matchedIdx.includes(index);
 
         if (!clickable || isAlreadyFlipped || isGameOver) return;
@@ -55,12 +63,10 @@ export const useGameStore = create((set, get) => ({
                 clickable: true,
             }))
         } else {
-            const currentRound = round;
-            setTimeout(() => {
-                const state = get();
-                if (state.round !== currentRound || state.isGameOver) return;
-                set({ flippedCardIdx: [], clickable: true })
+            const timeoutId = setTimeout(() => {
+                set({ flippedCardIdx: [], clickable: true, mismatchTimeoutId: null })
             }, MISMATCH_DELAY);
+            set({ mismatchTimeoutId: timeoutId });
         }
 
     },
@@ -70,7 +76,10 @@ export const useGameStore = create((set, get) => ({
         if (time <= 0) return;
         const nextTime = time - 1;
         set({ time: nextTime });
-        if (nextTime <= 0) set({ isGameOver: true });
+        if (nextTime <= 0) {
+            clearTimeout(get().mismatchTimeoutId);
+            set({ isGameOver: true, mismatchTimeoutId: null });
+        }
     },
 
     restartGame: () => {

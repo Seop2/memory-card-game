@@ -21,6 +21,7 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
     const cards = useGameStore((state) => (state.cards))
     const isGameOver = useGameStore((state) => (state.isGameOver))
     const startGame = useGameStore((state) => (state.startGame))
+    const stopGame = useGameStore((state) => (state.stopGame))
     const tick = useGameStore((state) => (state.tick))
     const flippedCardIdx = useGameStore((state) => (state.flippedCardIdx))
     const matchedIdx = useGameStore((state) => (state.matchedIdx))
@@ -30,7 +31,7 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
     //Preview cards on initial load
     useEffect(() => {
         startGame();
-        useGameStore.setState({ clickable: false })
+        stopGame();
     }, [])
 
     //Reset store when the game starts, lock cards when stopped
@@ -38,9 +39,9 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
         if (isStarted) {
             startGame();
         } else {
-            useGameStore.setState({ clickable: false });
+            stopGame();
         }
-    }, [isStarted, startGame])
+    }, [isStarted, startGame, stopGame])
 
     //Timer logic
     useEffect(() => {
