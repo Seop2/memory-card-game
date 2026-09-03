@@ -1,61 +1,54 @@
+"use client"
+import { dateFmt } from "@/lib/generatePariedValues"
 import styles from "./page.module.css"
+import { useRankStore } from "@/store/rankStore"
+
+/**
+ * 1ST / Jinseop / 00:33 / 80 / 9 moves
+→ rank, { name, score, moves, date }
+ * @returns 
+ */
+
+const rankLabel = ["1ST", "2ND", "3RD"];
+const rankClass = [styles.first, styles.second, styles.third];
+
+
 export default function RankPage() {
+    const ranks = useRankStore((state) => (state.ranks));
+    const rankHeadData = ranks.slice(0, 3);
+    const rankRestData = ranks.slice(3);
     return (<main className={styles.page}>
         <section className={styles.title}>
             <h1>Ranking</h1>
-            <h2>Normal Difficulty | Sorted by Moves</h2>
+            <h2>Sorted by Moves & Score</h2>
         </section>
-        <section className={styles.rankHead}>
-            <div className={styles.first}>
-                <div>1ST</div>
-                <div>Jinseop</div>
-                <div>00:33</div>
-                <div>80</div>
-                <div>9 moves</div>
-            </div>
-            <div className={styles.second}>
-                <div>2ND</div>
-                <div>Seokho</div>
-                <div>00:45</div>
-                <div>80</div>
-                <div>13 moves</div>
-            </div>
-            <div className={styles.third}>
-                <div>3RD</div>
-                <div>Sanghyun</div>
-                <div>00:58</div>
-                <div>80</div>
-                <div>15 moves</div>
-            </div>
-        </section>
-        <section className={styles.record}>
-            <ul>
-                <li>
-                    <div>04</div>
-                    <div>Soyeon</div>
-                    <div>18 moves</div>
-                </li>
-                <li>
-                    <div>05</div>
-                    <div>Taeyeon</div>
-                    <div>20 moves</div>
-                </li>
-                <li>
-                    <div>06</div>
-                    <div>Cheolsu</div>
-                    <div>24 moves</div>
-                </li>
-                <li>
-                    <div>07</div>
-                    <div>Minji</div>
-                    <div>25 moves</div>
-                </li>
-                <li>
-                    <div>08</div>
-                    <div>Jisu</div>
-                    <div>30 moves</div>
-                </li>
-            </ul>
-        </section>
+        {ranks.length === 0 ? (
+            <p className={styles.empty}>아직 저장된 기록이 없습니다. 게임을 플레이하고 기록을 남겨보세요!</p>
+        ) : (
+            <>
+                <section className={styles.rankHead}>
+                    {rankHeadData.map((rank, index) => (
+                        <div key={index} className={rankClass[index]}>
+                            <div>{rankLabel[index]}</div>
+                            <div>{rank.name}</div>
+                            <div>{dateFmt.format(new Date(rank.date))}</div>
+                            <div>{rank.score}</div>
+                            <div>{rank.moves} moves</div>
+                        </div>
+                    ))}
+                </section>
+                <section className={styles.record}>
+                    <ul>
+                        {rankRestData.map((rank, index) => (
+                            <li key={index}>
+                                <div>{index + 4}</div>
+                                <div>{rank.name}</div>
+                                <div>{rank.moves} moves</div>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            </>
+        )}
     </main >)
 }   
