@@ -5,9 +5,7 @@
  */
 export function generatePairedAnimalDeck(items) {
 
-    const deck = [...items, ...items].map((item, index) => ({
-        ...item, cardId: `${item.id}- ${index}`
-    }));
+    const deck = [...items, ...items];
 
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
