@@ -16,15 +16,13 @@ export const useGameStore = create((set, get) => ({
     time: INITIAL_TIME,
     clickable: false,
     isGameOver: false,
-    round: 0,
     moves: 0,
     mismatchTimeoutId: null,
 
     // ── actions ──
     startGame: () => {
         clearTimeout(get().mismatchTimeoutId);
-        set((state) => ({
-            round: state.round + 1,
+        set(() => ({
             moves: 0,
             cards: generatePairedAnimalDeck(ANIMALS),
             flippedCardIdx: [],
