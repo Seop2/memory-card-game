@@ -1,12 +1,24 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Fredoka, Nunito, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const font = Plus_Jakarta_Sans({
-  variable: "--font-google",
+const fredoka = Fredoka({
+  variable: "--font-display",
+  subsets: ['latin'],
+  weight: ['500']
+})
+
+const nunito = Nunito({
+  variable: "--font-body",
   subsets: ['latin'],
   weight: ['400', '700', '800']
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ['latin'],
+  weight: ['400']
 })
 
 export const metadata = {
@@ -17,7 +29,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={font.variable}>
+      <body className={`${fredoka.variable} ${nunito.variable} ${jetbrainsMono.variable}`}>
         <Header />
         {children}
         <Footer />

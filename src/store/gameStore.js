@@ -81,8 +81,4 @@ export const useGameStore = create((set, get) => ({
             set({ isGameOver: true, mismatchTimeoutId: null });
         }
     },
-
-    restartGame: () => {
-        get().startGame();
-    }
 }))
