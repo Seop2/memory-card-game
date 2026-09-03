@@ -15,12 +15,14 @@ export default function Home() {
         <h3>Gameplay Video</h3>
         <video
           className={styles.demoVideo}
-          src="/video/play1.mp4"
           autoPlay
           muted
           loop
           playsInline
-        />
+          preload="metadata"
+        >  <source src="/video/play1.webm" type="video/webm" />
+          <source src="/video/play1.mp4" type="video/mp4" />
+        </video>
       </section>
     </div>
   );
