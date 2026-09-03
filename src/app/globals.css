@@ -46,8 +46,11 @@
 
   --color-mobile-menu-bg: rgba(0, 0, 0, 0.5);
   --color-mobile-menu-text: var(--clr-cream-50);
-
+  --color-mobile-menu-border: var(--clr-cream-100);
   --color-video-border: var(--clr-coral-400);
+
+  --color-overlay: rgba(0, 0, 0, 0.5);
+
   /* ===== typography ===== */
   --font-display: 'Fredoka', sans-serif;
   --font-body: 'Nunito', sans-serif;

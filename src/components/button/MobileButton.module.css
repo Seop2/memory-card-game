@@ -7,8 +7,22 @@
 
 }
 
+.close {
+    display: none;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    z-index: 11;
+}
+
+
+
 @media (max-width: 640px) {
     .btn {
+        display: block;
+    }
+
+    .close {
         display: block;
     }
 }
@@ -18,7 +32,7 @@
     position: fixed;
     inset: 0;
     z-index: 9;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--color-overlay);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease-in-out;

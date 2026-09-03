@@ -13,9 +13,12 @@ export default function MobileButton() {
 
     return (
         <>
-            {!isOpen && (<button className={styles.btn} onClick={toggleMenu}>
+            {isOpen ? (<button className={styles.close} onClick={toggleMenu}>
+                <Image src="/close_white.png" alt="close" width={30} height={30} />
+            </button>) : (<button className={styles.btn} onClick={toggleMenu}>
                 <Image src="/menu.png" alt="mobile" width={30} height={30} />
-            </button>)}
+            </button>)
+            }
             <div className={`${styles.overlay} ${isOpen ? styles.open : ""}`} onClick={() => setIsOpen(false)} />
             <nav className={`${styles.mobileMenu} ${isOpen ? styles.open : ""}`}>
                 <Link href="/">Home</Link>
