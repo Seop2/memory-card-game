@@ -54,12 +54,16 @@ export const useGameStore = create((set, get) => ({
         const [firstIdx, secondIdx] = newFlipped;
         const isMatch = cards[firstIdx].id === cards[secondIdx].id;
         if (isMatch) {
-            set((state) => ({
-                matchedIdx: [...state.matchedIdx, firstIdx, secondIdx],
-                score: state.score + 10,
-                flippedCardIdx: [],
-                clickable: true,
-            }))
+            set((state) => {
+                const matchedIdx = [...state.matchedIdx, firstIdx, secondIdx];
+                return {
+                    matchedIdx,
+                    score: state.score + 10,
+                    flippedCardIdx: [],
+                    clickable: true,
+                    isGameOver: matchedIdx.length === state.cards.length,
+                };
+            })
         } else {
             const timeoutId = setTimeout(() => {
                 set({ flippedCardIdx: [], clickable: true, mismatchTimeoutId: null })
