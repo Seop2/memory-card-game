@@ -9,6 +9,7 @@
 
 .close {
     display: none;
+    position: relative;
     border: none;
     cursor: pointer;
     background-color: transparent;
