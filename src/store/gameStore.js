@@ -1,6 +1,6 @@
 import { ANIMALS } from "@/data/animal";
 import { create } from "zustand"
-import { generatePairedAnimalDeck } from "@/lib/generatePariedValues";
+import { generatePairedAnimalDeck } from "@/lib/generatePairedValues";
 const INITIAL_TIME = 60;
 const MISMATCH_DELAY = 1000;
 

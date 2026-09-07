@@ -1,5 +1,5 @@
 "use client"
-import { dateFmt } from "@/lib/generatePariedValues"
+import { dateFmt } from "@/lib/dateFormat"
 import styles from "./page.module.css"
 import { useRankStore } from "@/store/rankStore"
 
@@ -20,7 +20,7 @@ export default function RankPage() {
     return (<main className={styles.page}>
         <section className={styles.title}>
             <h1>Ranking</h1>
-            <h2>Sorted by Moves & Score</h2>
+            <h2>Sorted by Score & Moves</h2>
         </section>
         {ranks.length === 0 ? (
             <p className={styles.empty}>아직 저장된 기록이 없습니다. 게임을 플레이하고 기록을 남겨보세요!</p>
