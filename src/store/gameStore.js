@@ -46,6 +46,10 @@ export const useGameStore = create((set, get) => ({
         set({ isGameOver: true });
     },
 
+    closeGame: () => {
+        set({ isGameOver: false });
+    },
+
     flipCard: (index) => {
         const { cards, flippedCardIdx, matchedIdx, clickable, isGameOver } = get();
         const isAlreadyFlipped = flippedCardIdx.includes(index) || matchedIdx.includes(index);

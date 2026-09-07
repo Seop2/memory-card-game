@@ -23,6 +23,7 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
     const startGame = useGameStore((state) => (state.startGame))
     const stopGame = useGameStore((state) => (state.stopGame))
     const lockGame = useGameStore((state) => (state.lockGame))
+    const closeGame = useGameStore((state) => (state.closeGame))
     const tick = useGameStore((state) => (state.tick))
     const flippedCardIdx = useGameStore((state) => (state.flippedCardIdx))
     const matchedIdx = useGameStore((state) => (state.matchedIdx))
@@ -37,15 +38,16 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
         lockGame();
     }, [])
 
-    //Reset store when the game starts, end the game when a running game is stopped
+    //Reset store when the game starts, end the game when the user manually stops it
+    //(skip if the game already ended on its own, e.g. a win or timeout)
     useEffect(() => {
         if (isStarted) {
             hasStartedRef.current = true;
             startGame();
-        } else if (hasStartedRef.current) {
+        } else if (hasStartedRef.current && !isGameOver) {
             stopGame();
         }
-    }, [isStarted, startGame, stopGame])
+    }, [isStarted, isGameOver, startGame, stopGame])
 
     //Timer logic
     useEffect(() => {
@@ -65,7 +67,7 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
 
 
     const handleCloseModal = () => {
-        useGameStore.setState({ isGameOver: false });
+        closeGame();
     }
 
     const handleRestart = () => {
