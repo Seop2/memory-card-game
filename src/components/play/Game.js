@@ -1,7 +1,7 @@
 "use client"
 import styles from "./Game.module.css"
 import Card from "./Card"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import GameOverModal from "./GameOverModal"
 import { useGameStore } from "@/store/gameStore"
 import Timer from "./Timer"
@@ -22,23 +22,27 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
     const isGameOver = useGameStore((state) => (state.isGameOver))
     const startGame = useGameStore((state) => (state.startGame))
     const stopGame = useGameStore((state) => (state.stopGame))
+    const lockGame = useGameStore((state) => (state.lockGame))
     const tick = useGameStore((state) => (state.tick))
     const flippedCardIdx = useGameStore((state) => (state.flippedCardIdx))
     const matchedIdx = useGameStore((state) => (state.matchedIdx))
     const moves = useGameStore((state) => (state.moves));
     const addRecord = useRankStore((state) => (state.addRecord));
 
-    //Preview cards on initial load
+    const hasStartedRef = useRef(false);
+
+    //Preview cards on initial load (locked, not a game-over state)
     useEffect(() => {
         startGame();
-        stopGame();
+        lockGame();
     }, [])
 
-    //Reset store when the game starts, lock cards when stopped
+    //Reset store when the game starts, end the game when a running game is stopped
     useEffect(() => {
         if (isStarted) {
+            hasStartedRef.current = true;
             startGame();
-        } else {
+        } else if (hasStartedRef.current) {
             stopGame();
         }
     }, [isStarted, startGame, stopGame])

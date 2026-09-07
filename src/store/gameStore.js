@@ -35,10 +35,15 @@ export const useGameStore = create((set, get) => ({
         }))
     },
 
-    stopGame: () => {
+    // Lock the board without ending the game (used to freeze the preview deck)
+    lockGame: () => {
         clearTimeout(get().mismatchTimeoutId);
-        set({ clickable: false, mismatchTimeoutId: null });
-        set({ flippedCardIdx: [], isGameOver: true })
+        set({ clickable: false, flippedCardIdx: [], mismatchTimeoutId: null });
+    },
+
+    stopGame: () => {
+        get().lockGame();
+        set({ isGameOver: true });
     },
 
     flipCard: (index) => {
