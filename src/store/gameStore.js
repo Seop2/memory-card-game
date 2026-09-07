@@ -38,6 +38,7 @@ export const useGameStore = create((set, get) => ({
     stopGame: () => {
         clearTimeout(get().mismatchTimeoutId);
         set({ clickable: false, mismatchTimeoutId: null });
+        set({ flippedCardIdx: [], isGameOver: true })
     },
 
     flipCard: (index) => {
@@ -81,6 +82,7 @@ export const useGameStore = create((set, get) => ({
         if (nextTime <= 0) {
             clearTimeout(get().mismatchTimeoutId);
             set({ isGameOver: true, mismatchTimeoutId: null });
+            set({ flippedCardIdx: [], clickable: false })
         }
     },
 }))
