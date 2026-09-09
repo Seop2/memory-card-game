@@ -29,7 +29,7 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
     const matchedIdx = useGameStore((state) => (state.matchedIdx))
     const moves = useGameStore((state) => (state.moves));
     const addRecord = useRankStore((state) => (state.addRecord));
-
+    const finalScore = useGameStore((state) => (state.score));
     const hasStartedRef = useRef(false);
 
     //Preview cards on initial load (locked, not a game-over state)
@@ -44,10 +44,11 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
         if (isStarted) {
             hasStartedRef.current = true;
             startGame();
-        } else if (hasStartedRef.current && !isGameOver) {
-            stopGame();
+        } else {
+            if (hasStartedRef.current) stopGame();
+            hasStartedRef.current = false;
         }
-    }, [isStarted, isGameOver, startGame, stopGame])
+    }, [isStarted, startGame, stopGame])
 
     //Timer logic
     useEffect(() => {
@@ -71,13 +72,12 @@ export default function Game({ isStarted, onGameEnd, onRestart }) {
     }
 
     const handleRestart = () => {
-        startGame();
         onRestart?.();
     }
 
     const isMatched = (index) => (matchedIdx.includes(index))
     const isFlipped = (index) => (flippedCardIdx.includes(index) || matchedIdx.includes(index));
-    const finalScore = useGameStore((state) => (state.score));
+
 
     const handleSave = (name) => {
         addRecord({
