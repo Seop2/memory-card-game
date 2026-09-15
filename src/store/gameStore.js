@@ -26,6 +26,7 @@ export const useGameStore = create((set, get) => ({
         clearTimeout(get().mismatchTimeoutId);
         set(() => ({
             ...initialState(),
+            clickable: true,
             cards: generatePairedAnimalDeck(ANIMALS),
         }))
     },
