@@ -1,14 +1,11 @@
 import { ANIMALS } from "@/data/animal";
 import { create } from "zustand"
 import { generatePairedAnimalDeck } from "@/lib/generatePairedValues";
+
 const INITIAL_TIME = 60;
 const MISMATCH_DELAY = 1000;
 
-
-
-export const useGameStore = create((set, get) => ({
-
-    // ── state ──
+const initialState = () => ({
     cards: [],
     flippedCardIdx: [],
     matchedIdx: [],
@@ -18,20 +15,18 @@ export const useGameStore = create((set, get) => ({
     isGameOver: false,
     moves: 0,
     mismatchTimeoutId: null,
+});
+
+export const useGameStore = create((set, get) => ({
+
+    ...initialState(),
 
     // ── actions ──
     startGame: () => {
         clearTimeout(get().mismatchTimeoutId);
         set(() => ({
-            moves: 0,
+            ...initialState(),
             cards: generatePairedAnimalDeck(ANIMALS),
-            flippedCardIdx: [],
-            matchedIdx: [],
-            score: 0,
-            time: INITIAL_TIME,
-            clickable: true,
-            isGameOver: false,
-            mismatchTimeoutId: null,
         }))
     },
 
