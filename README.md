@@ -23,14 +23,14 @@ Next.js 16(App Router)과 Zustand로 만들었고, 점수와 이동 횟수를 �
 
 ## Tech Stack
 
-| 구분 | 사용 기술 |
-| --- | --- |
-| Framework | Next.js 16 (App Router, React Compiler) |
-| UI | React 19 |
+| 구분      | 사용 기술                                  |
+| --------- | ------------------------------------------ |
+| Framework | Next.js 16 (App Router, React Compiler)    |
+| UI        | React 19                                   |
 | 상태 관리 | Zustand (+ `persist` 미들웨어로 랭킹 저장) |
-| 스타일 | CSS Modules |
-| 테스트 | Vitest, jsdom |
-| Lint | ESLint (`eslint-config-next`) |
+| 스타일    | CSS Modules                                |
+| 테스트    | Vitest, jsdom                              |
+| Lint      | ESLint (`eslint-config-next`)              |
 
 ## Getting Started
 
@@ -69,13 +69,13 @@ src/
 │  ├─ play/        # Card, Game, Timer, Score, GameOverModal 등 게임 UI
 │  └─ button/       # 모바일 메뉴 버튼
 ├─ store/
-│  ├─ gameStore.js  # 카드 상태, 매칭 로직, 타이머 등 게임 핵심 로직
-│  └─ rankStore.js  # 랭킹 저장/정렬 (localStorage persist)
+│  ├─ gameStore.ts  # 카드 상태, 매칭 로직, 타이머 등 게임 핵심 로직
+│  └─ rankStore.ts  # 랭킹 저장/정렬 (localStorage persist)
 ├─ lib/             # 날짜 포맷, 카드 덱 셔플 등 순수 유틸 함수
 └─ data/            # 카드에 사용되는 동물 목록
 ```
 
-게임 로직이 궁금하다면 `src/store/gameStore.js`부터 보시는 걸 추천합니다 — 카드 뒤집기, 매칭 판정, 타이머가 전부 여기서 zustand 스토어로 관리됩니다.
+게임 로직이 궁금하다면 `src/store/gameStore.ts`부터 보시는 걸 추천합니다 — 카드 뒤집기, 매칭 판정, 타이머가 전부 여기서 zustand 스토어로 관리됩니다.
 
 ## License
 
