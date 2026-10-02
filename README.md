@@ -32,6 +32,15 @@ Next.js 16(App Router)과 Zustand로 만들었고, 점수와 이동 횟수를 �
 | 테스트    | Vitest, jsdom                              |
 | Lint      | ESLint (`eslint-config-next`)              |
 
+## Why Zustand?
+- 게임 컴포넌트에는 props로 start, end 등 게임 상황에 대한 prop을 전달받아 처리하고
+- 스토어를 생성하여 로직을 따로 분리하여 보다 가독성과 유지보수 하기 좋은 코드를 구현하고자 분리
+
+Context API 대신 Zustand를 선택한 이유:
+- 보일러플레이트 최소화
+- 컴포넌트 외부에서도 상태 접근 가능 (테스트 용이)
+- 선택적 구독으로 리렌더링 최적화
+
 ## Getting Started
 
 ```bash
