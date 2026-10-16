@@ -56,7 +56,7 @@ describe("useRankStore", () => {
     const record: RankRecord = { userName: "a", score: 10, moves: 5 };
     useRankStore.getState().addRecord(record);
 
-    const saved = JSON.parse(localStorage.getItem("memory-game-ranks"));
+    const saved = JSON.parse(localStorage.getItem("memory-game-ranks") ?? "null");
     expect(saved.state.ranks).toEqual([record]);
   });
 });

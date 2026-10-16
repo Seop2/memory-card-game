@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useGameStore, isClickable, isGameOver } from "./gameStore";
+import { useGameStore, isClickable, isGameOver, type CardItem } from "./gameStore";
 
 const initialState = useGameStore.getState();
 
@@ -8,7 +8,7 @@ beforeEach(() => {
     useGameStore.setState(initialState, true);
 });
 
-function findMatchPair(cards) {
+function findMatchPair(cards: CardItem[]): [number, number] {
     for (let i = 0; i < cards.length; i++) {
         for (let j = i + 1; j < cards.length; j++) {
             if (cards[i].id === cards[j].id) return [i, j];
@@ -17,7 +17,7 @@ function findMatchPair(cards) {
     throw new Error("no matching pair found in deck");
 }
 
-function findMismatchPair(cards) {
+function findMismatchPair(cards: CardItem[]): [number, number] {
     for (let i = 0; i < cards.length; i++) {
         for (let j = i + 1; j < cards.length; j++) {
             if (cards[i].id !== cards[j].id) return [i, j];

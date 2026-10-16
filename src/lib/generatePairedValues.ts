@@ -1,7 +1,5 @@
 /**
- * Generate the card deck
- * @param {*} item
- * @returns
+ * 카드 배열을 두 배로 복제한 뒤 섞어서 짝 카드 덱을 만든다
  */
 export function generatePairedAnimalDeck<T>(items: T[]): T[] {
 

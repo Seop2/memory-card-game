@@ -26,7 +26,7 @@ export const metadata = {
   description: "The ultimate matching game for your brain!",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${fredoka.variable} ${nunito.variable} ${jetbrainsMono.variable}`}>

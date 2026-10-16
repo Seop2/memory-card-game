@@ -1,10 +1,19 @@
 "use client"
 import { useState } from "react"
 import styles from "./GameOverModal.module.css"
-export default function GameOverModal({ score, onRestart, onClose, moves, onSave }) {
+
+interface GameOverModalProps {
+    score: number;
+    onRestart: () => void;
+    onClose: () => void;
+    moves: number;
+    onSave: (name: string) => void;
+}
+
+export default function GameOverModal({ score, onRestart, onClose, moves, onSave }: GameOverModalProps) {
     const [name, setName] = useState("");
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
     }
 

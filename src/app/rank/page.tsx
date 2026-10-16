@@ -33,7 +33,7 @@ export default function RankPage() {
               <div key={index} className={rankClass[index]}>
                 <div>{rankLabel[index]}</div>
                 <div>{rank.userName}</div>
-                <div>{dateFmt.format(new Date(rank.createdAt))}</div>
+                <div>{rank.createdAt ? dateFmt.format(new Date(rank.createdAt)) : "-"}</div>
                 <div>{rank.score}</div>
                 <div>{rank.moves} moves</div>
               </div>

@@ -1,6 +1,5 @@
-import { CardItem } from "@/store/gameStore";
+import type { CardItem } from "@/store/gameStore";
 
-// data/animals.js
 export const ANIMALS: CardItem[] = [
     { id: 1, name: "cat", image: "/card_img/cat.svg" },
     { id: 2, name: "dog", image: "/card_img/dog.svg" },
