@@ -3,7 +3,7 @@
  * @param {*} item
  * @returns
  */
-export function generatePairedAnimalDeck(items) {
+export function generatePairedAnimalDeck<T>(items: T[]): T[] {
 
     const deck = [...items, ...items];
 

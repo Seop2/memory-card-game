@@ -4,8 +4,8 @@ import { generatePairedAnimalDeck } from "@/lib/generatePairedValues";
 
 export interface CardItem {
   id: string | number;
-  name?: string;
-  imgUrl?: string;
+  name: string;
+  image: string;
 }
 
 /**

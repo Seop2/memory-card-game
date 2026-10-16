@@ -1,8 +1,16 @@
 import Image from "next/image"
 import style from "./Card.module.css"
-import { useGameStore } from "@/store/gameStore"
+import { CardItem, useGameStore } from "@/store/gameStore"
 import { memo } from "react";
-function Card({ item, isFlipped, isMatched, index }) {
+
+interface CardProps {
+    item: CardItem;
+    isFlipped: boolean;
+    isMatched: boolean;
+    index: number;
+}
+
+function Card({ item, isFlipped, isMatched, index }: CardProps) {
     const flipCard = useGameStore((state) => state.flipCard);
     return (
         <button className={style.card} onClick={() => flipCard(index)} disabled={isMatched} aria-label={isFlipped ? `Card value: ${item.name}` : "Face-down card"}>
