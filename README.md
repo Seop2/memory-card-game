@@ -84,7 +84,9 @@ src/
 └─ data/            # 카드에 사용되는 동물 목록
 ```
 
-게임 로직이 궁금하다면 `src/store/gameStore.ts`부터 보시는 걸 추천합니다 — 카드 뒤집기, 매칭 판정, 타이머가 전부 여기서 zustand 스토어로 관리됩니다.
+## flowchart
+![flowchart](./public/flowchart.png)
+
 
 ## License
 
