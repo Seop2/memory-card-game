@@ -3,7 +3,7 @@ import styles from "./Game.module.css";
 import Card from "./Card";
 import { useEffect, useRef } from "react";
 import GameOverModal from "./GameOverModal";
-import { useGameStore } from "@/store/gameStore";
+import { useGameStore, isGameOver } from "@/store/gameStore";
 import Timer from "./Timer";
 import Score from "./Score";
 import { RankRecord, useRankStore } from "@/store/rankStore";
@@ -25,7 +25,7 @@ interface GameProps {
 
 export default function Game({ isStarted, onGameEnd, onRestart }: GameProps) {
   const cards = useGameStore((state) => state.cards);
-  const isGameOver = useGameStore((state) => state.isGameOver);
+  const gameOver = useGameStore((state) => isGameOver(state));
   const startGame = useGameStore((state) => state.startGame);
   const stopGame = useGameStore((state) => state.stopGame);
   const lockGame = useGameStore((state) => state.lockGame);
@@ -58,16 +58,16 @@ export default function Game({ isStarted, onGameEnd, onRestart }: GameProps) {
 
   //Timer logic
   useEffect(() => {
-    if (isGameOver || !isStarted) return;
+    if (gameOver || !isStarted) return;
 
     const timer = setInterval(() => tick(), 1000);
 
     return () => clearInterval(timer);
-  }, [isGameOver, isStarted, tick]);
+  }, [gameOver, isStarted, tick]);
 
   useEffect(() => {
-    if (isGameOver) onGameEnd?.();
-  }, [isGameOver, onGameEnd]);
+    if (gameOver) onGameEnd?.();
+  }, [gameOver, onGameEnd]);
 
   const handleCloseModal = () => {
     closeGame();
@@ -77,8 +77,8 @@ export default function Game({ isStarted, onGameEnd, onRestart }: GameProps) {
     onRestart?.();
   };
 
-  const isMatched = (index) => matchedIdx.includes(index);
-  const isFlipped = (index) =>
+  const checkMatched = (index: number) => matchedIdx.includes(index);
+  const checkFlipped = (index: number) =>
     flippedCardIdx.includes(index) || matchedIdx.includes(index);
 
   const handleSave = (userName: string) => {
@@ -103,12 +103,12 @@ export default function Game({ isStarted, onGameEnd, onRestart }: GameProps) {
             key={index}
             item={item}
             index={index}
-            isFlipped={isFlipped(index)}
-            isMatched={isMatched(index)}
+            isFlipped={checkFlipped(index)}
+            isMatched={checkMatched(index)}
           />
         ))}
       </div>
-      {isGameOver && (
+      {gameOver && (
         <GameOverModal
           score={finalScore}
           onRestart={handleRestart}

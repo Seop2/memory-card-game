@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useGameStore } from "./gameStore";
+import { useGameStore, isClickable, isGameOver } from "./gameStore";
 
 const initialState = useGameStore.getState();
 
@@ -36,8 +36,8 @@ describe("useGameStore", () => {
         expect(state.matchedIdx).toEqual([]);
         expect(state.score).toBe(0);
         expect(state.moves).toBe(0);
-        expect(state.clickable).toBe(true);
-        expect(state.isGameOver).toBe(false);
+        expect(isClickable(state)).toBe(true);
+        expect(isGameOver(state)).toBe(false);
     });
 
     it("첫 번째 카드만 뒤집으면 flippedCardIdx에만 추가되고 moves는 그대로다", () => {
@@ -60,11 +60,11 @@ describe("useGameStore", () => {
         expect(state.matchedIdx).toEqual(expect.arrayContaining([firstIdx, secondIdx]));
         expect(state.score).toBe(10);
         expect(state.flippedCardIdx).toEqual([]);
-        expect(state.clickable).toBe(true);
+        expect(isClickable(state)).toBe(true);
         expect(state.moves).toBe(1);
     });
 
-    it("모든 카드를 다 맞추면 isGameOver가 true가 된다", () => {
+    it("모든 카드를 다 맞추면 phase가 ended가 된다", () => {
         useGameStore.getState().startGame();
         const { cards } = useGameStore.getState();
 
@@ -78,7 +78,7 @@ describe("useGameStore", () => {
             }
         });
 
-        expect(useGameStore.getState().isGameOver).toBe(true);
+        expect(isGameOver(useGameStore.getState())).toBe(true);
         expect(useGameStore.getState().matchedIdx).toHaveLength(cards.length);
     });
 
@@ -90,64 +90,64 @@ describe("useGameStore", () => {
         useGameStore.getState().flipCard(firstIdx);
         useGameStore.getState().flipCard(secondIdx);
 
-        expect(useGameStore.getState().clickable).toBe(false);
+        expect(isClickable(useGameStore.getState())).toBe(false);
         expect(useGameStore.getState().flippedCardIdx).toEqual([firstIdx, secondIdx]);
 
         vi.advanceTimersByTime(1000);
 
         const state = useGameStore.getState();
         expect(state.flippedCardIdx).toEqual([]);
-        expect(state.clickable).toBe(true);
+        expect(isClickable(state)).toBe(true);
         expect(state.matchedIdx).toEqual([]);
     });
 
     it("clickable이 false면 flipCard를 호출해도 상태가 바뀌지 않는다", () => {
         useGameStore.getState().startGame();
-        useGameStore.setState({ clickable: false });
+        useGameStore.setState({ waiting: true });
 
         useGameStore.getState().flipCard(0);
 
         expect(useGameStore.getState().flippedCardIdx).toEqual([]);
     });
 
-    it("isGameOver가 true면 flipCard를 호출해도 상태가 바뀌지 않는다", () => {
+    it("phase가 ended면 flipCard를 호출해도 상태가 바뀌지 않는다", () => {
         useGameStore.getState().startGame();
-        useGameStore.setState({ isGameOver: true });
+        useGameStore.setState({ phase: "ended" });
 
         useGameStore.getState().flipCard(0);
 
         expect(useGameStore.getState().flippedCardIdx).toEqual([]);
     });
 
-    it("lockGame은 clickable을 false로, flippedCardIdx를 비우지만 isGameOver는 건드리지 않는다", () => {
+    it("lockGame은 phase를 idle로, flippedCardIdx를 비우지만 ended 상태는 아니다", () => {
         useGameStore.getState().startGame();
         useGameStore.setState({ flippedCardIdx: [0, 1] });
 
         useGameStore.getState().lockGame();
 
         const state = useGameStore.getState();
-        expect(state.clickable).toBe(false);
+        expect(isClickable(state)).toBe(false);
         expect(state.flippedCardIdx).toEqual([]);
-        expect(state.isGameOver).toBe(false);
+        expect(isGameOver(state)).toBe(false);
     });
 
-    it("stopGame은 보드를 잠그고 isGameOver를 true로 만든다", () => {
+    it("stopGame은 보드를 잠그고 phase를 ended로 만든다", () => {
         useGameStore.getState().startGame();
 
         useGameStore.getState().stopGame();
 
         const state = useGameStore.getState();
-        expect(state.clickable).toBe(false);
-        expect(state.isGameOver).toBe(true);
+        expect(isClickable(state)).toBe(false);
+        expect(isGameOver(state)).toBe(true);
     });
 
-    it("closeGame은 isGameOver만 false로 되돌린다", () => {
-        useGameStore.setState({ isGameOver: true, clickable: false });
+    it("closeGame은 phase를 idle로 되돌린다", () => {
+        useGameStore.setState({ phase: "ended" });
 
         useGameStore.getState().closeGame();
 
-        expect(useGameStore.getState().isGameOver).toBe(false);
-        expect(useGameStore.getState().clickable).toBe(false);
+        expect(isGameOver(useGameStore.getState())).toBe(false);
+        expect(isClickable(useGameStore.getState())).toBe(false);
     });
 
     it("tick은 time을 1씩 줄인다", () => {
@@ -165,17 +165,17 @@ describe("useGameStore", () => {
 
         const state = useGameStore.getState();
         expect(state.time).toBe(0);
-        expect(state.isGameOver).toBe(true);
-        expect(state.clickable).toBe(false);
+        expect(isGameOver(state)).toBe(true);
+        expect(isClickable(state)).toBe(false);
         expect(state.flippedCardIdx).toEqual([]);
     });
 
     it("time이 이미 0이면 tick을 호출해도 변화가 없다", () => {
-        useGameStore.setState({ time: 0, isGameOver: false });
+        useGameStore.setState({ time: 0, phase: "playing" });
 
         useGameStore.getState().tick();
 
         expect(useGameStore.getState().time).toBe(0);
-        expect(useGameStore.getState().isGameOver).toBe(false);
+        expect(isGameOver(useGameStore.getState())).toBe(false);
     });
 });

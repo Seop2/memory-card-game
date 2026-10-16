@@ -8,16 +8,24 @@ export interface CardItem {
   imgUrl?: string;
 }
 
+/**
+ * 게임의 생명주기 단계를 명확히 구분하는 열거형
+ *  - idle     : 게임 시작 전 (프리뷰 / 대기)
+ *  - playing  : 진행 중
+ *  - ended    : 종료됨 (모달 표시)
+ */
+export type GamePhase = "idle" | "playing" | "ended";
+
+// ── 핵심 상태: 직접 저장해야 하는 값만 남김 ──
 interface GameState {
   cards: CardItem[];
   flippedCardIdx: number[];
   matchedIdx: number[];
   score: number;
   time: number;
-  clickable: boolean;
-  isGameOver: boolean;
+  phase: GamePhase; // ← isGameOver + clickable을 하나로 통합
   moves: number;
-  mismatchTimeoutId: ReturnType<typeof setTimeout> | null; // 타입 추출
+  waiting: boolean; // 불일치 딜레이 대기 중 (클릭 잠금)
 }
 
 interface GameActions {
@@ -28,9 +36,37 @@ interface GameActions {
   flipCard: (index: number) => void;
   tick: () => void;
 }
+
+// ── 파생 헬퍼 (컴포넌트에서 사용) ──
+export function isClickable(state: GameState): boolean {
+  return state.phase === "playing" && !state.waiting;
+}
+
+export function isFlipped(state: GameState, index: number): boolean {
+  return state.flippedCardIdx.includes(index) || state.matchedIdx.includes(index);
+}
+
+export function isMatched(state: GameState, index: number): boolean {
+  return state.matchedIdx.includes(index);
+}
+
+export function isGameOver(state: GameState): boolean {
+  return state.phase === "ended";
+}
+
 type GameStore = GameState & GameActions;
 const INITIAL_TIME = 60;
 const MISMATCH_DELAY = 1000;
+
+// 타이머 ID를 스토어 바깥 모듈 스코프에 관리 (렌더링과 무관한 부수효과)
+let mismatchTimeoutId: ReturnType<typeof setTimeout> | null = null;
+
+function clearMismatchTimeout() {
+  if (mismatchTimeoutId !== null) {
+    clearTimeout(mismatchTimeoutId);
+    mismatchTimeoutId = null;
+  }
+}
 
 const initialState = (): GameState => ({
   cards: [],
@@ -38,10 +74,9 @@ const initialState = (): GameState => ({
   matchedIdx: [],
   score: 0,
   time: INITIAL_TIME,
-  clickable: false,
-  isGameOver: false,
+  phase: "idle",
   moves: 0,
-  mismatchTimeoutId: null,
+  waiting: false,
 });
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -49,50 +84,39 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   // ── actions ──
   startGame: () => {
-    clearTimeout(get().mismatchTimeoutId);
+    clearMismatchTimeout();
     set(() => ({
       ...initialState(),
-      clickable: true,
+      phase: "playing",
       cards: generatePairedAnimalDeck(ANIMALS),
     }));
   },
 
   // Lock the board without ending the game (used to freeze the preview deck)
   lockGame: () => {
-    clearTimeout(get().mismatchTimeoutId);
-    set({ clickable: false, flippedCardIdx: [], mismatchTimeoutId: null });
+    clearMismatchTimeout();
+    set({ phase: "idle", flippedCardIdx: [], waiting: false });
   },
 
   stopGame: () => {
-    clearTimeout(get().mismatchTimeoutId);
+    clearMismatchTimeout();
     set({
-      clickable: false,
+      phase: "ended",
       flippedCardIdx: [],
-      mismatchTimeoutId: null,
-      isGameOver: true,
+      waiting: false,
     });
   },
 
   closeGame: () => {
-    set({ isGameOver: false });
+    set({ phase: "idle" });
   },
 
   flipCard: (index: number) => {
-    const {
-      cards,
-      flippedCardIdx,
-      matchedIdx,
-      clickable,
-      isGameOver,
-      moves,
-      score,
-    } = get();
-    const isAlreadyFlipped =
-      flippedCardIdx.includes(index) || matchedIdx.includes(index);
+    const state = get();
+    if (!isClickable(state)) return;
+    if (isFlipped(state, index)) return;
 
-    if (!clickable || isAlreadyFlipped || isGameOver) return;
-
-    const newFlipped = [...flippedCardIdx, index];
+    const newFlipped = [...state.flippedCardIdx, index];
 
     if (newFlipped.length !== 2) {
       set({ flippedCardIdx: newFlipped });
@@ -100,44 +124,43 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
 
     const [firstIdx, secondIdx] = newFlipped;
-    const isMatch = cards[firstIdx].id === cards[secondIdx].id;
+    const isMatch = state.cards[firstIdx].id === state.cards[secondIdx].id;
 
     if (isMatch) {
-      const newMatchedIdx = [...matchedIdx, firstIdx, secondIdx];
+      const newMatchedIdx = [...state.matchedIdx, firstIdx, secondIdx];
+      const allMatched = newMatchedIdx.length === state.cards.length;
       set({
         flippedCardIdx: [],
         matchedIdx: newMatchedIdx,
-        score: score + 10,
-        moves: moves + 1,
-        clickable: true,
-        isGameOver: newMatchedIdx.length === cards.length,
+        score: state.score + 10,
+        moves: state.moves + 1,
+        phase: allMatched ? "ended" : "playing",
       });
     } else {
-      const timeoutId = setTimeout(() => {
-        set({ flippedCardIdx: [], clickable: true, mismatchTimeoutId: null });
-      }, MISMATCH_DELAY);
       set({
         flippedCardIdx: newFlipped,
-        clickable: false,
-        moves: moves + 1,
-        mismatchTimeoutId: timeoutId,
+        waiting: true,
+        moves: state.moves + 1,
       });
+      mismatchTimeoutId = setTimeout(() => {
+        set({ flippedCardIdx: [], waiting: false });
+        mismatchTimeoutId = null;
+      }, MISMATCH_DELAY);
     }
   },
 
   tick: () => {
-    const { time, mismatchTimeoutId } = get();
+    const { time } = get();
     if (time <= 0) return;
     const nextTime = time - 1;
 
     if (nextTime <= 0) {
-      if (mismatchTimeoutId) clearTimeout(mismatchTimeoutId);
+      clearMismatchTimeout();
       set({
         time: nextTime,
-        isGameOver: true,
-        mismatchTimeoutId: null,
+        phase: "ended",
         flippedCardIdx: [],
-        clickable: false,
+        waiting: false,
       });
     } else {
       set({ time: nextTime });
